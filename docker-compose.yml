@@ -1,0 +1,30 @@
+services:
+
+  postgres:
+    image: postgres:17
+    container_name: bizflow-postgres
+    environment:
+      POSTGRES_DB: bizflow
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  backend:
+    build:
+      context: src/main/java/com/bizflow/bizflow_backend
+      dockerfile: Dockerfile
+    container_name: bizflow-backend
+    depends_on:
+      - postgres
+    environment:
+      DB_URL: jdbc:postgresql://postgres:5432/bizflow
+      DB_USERNAME: postgres
+      DB_PASSWORD: postgres
+    ports:
+      - "8080:8080"
+
+volumes:
+  postgres_data:
