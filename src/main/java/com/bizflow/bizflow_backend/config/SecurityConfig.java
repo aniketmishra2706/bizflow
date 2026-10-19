@@ -111,9 +111,12 @@ public class SecurityConfig {
         CorsConfiguration configuration =
                 new CorsConfiguration();
 
-        // Angular frontend URL
-        configuration.setAllowedOrigins(
-                List.of("http://localhost:4200")
+        // Allow local development and Netlify-hosted frontend sites.
+        configuration.setAllowedOriginPatterns(
+                List.of(
+                        "http://localhost:4200",
+                        "https://*.netlify.app"
+                )
         );
 
         configuration.setAllowedMethods(
